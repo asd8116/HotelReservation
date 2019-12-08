@@ -1,0 +1,170 @@
+@import '../all.scss';
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 10px;
+
+  [class^='col'] {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .col-1 {
+    width: calc(100% / 12);
+  }
+
+  .col-2 {
+    width: calc(100% / 12 * 2);
+  }
+
+  .col-3 {
+    width: calc(100% / 12 * 3);
+  }
+
+  .col-4 {
+    width: calc(100% / 12 * 4);
+  }
+
+  .col-5 {
+    width: calc(100% / 12 * 5);
+  }
+
+  .col-6 {
+    width: calc(100% / 12 * 6);
+  }
+
+  .col-7 {
+    width: calc(100% / 12 * 7);
+  }
+
+  .col-8 {
+    width: calc(100% / 12 * 8);
+  }
+
+  .col-9 {
+    width: calc(100% / 12 * 9);
+  }
+
+  .col-10 {
+    width: calc(100% / 12 * 10);
+  }
+
+  .col-11 {
+    width: calc(100% / 12 * 11);
+  }
+
+  .col-12 {
+    width: calc(100% / 12 * 12);
+  }
+
+  @include spad-width {
+    .col-pad-1 {
+      width: calc(100% / 12);
+    }
+
+    .col-pad-2 {
+      width: calc(100% / 12 * 2);
+    }
+
+    .col-pad-3 {
+      width: calc(100% / 12 * 3);
+    }
+
+    .col-pad-4 {
+      width: calc(100% / 12 * 4);
+    }
+
+    .col-pad-5 {
+      width: calc(100% / 12 * 5);
+    }
+
+    .col-pad-6 {
+      width: calc(100% / 12 * 6);
+    }
+
+    .col-pad-7 {
+      width: calc(100% / 12 * 7);
+    }
+
+    .col-pad-8 {
+      width: calc(100% / 12 * 8);
+    }
+
+    .col-pad-9 {
+      width: calc(100% / 12 * 9);
+    }
+
+    .col-pad-10 {
+      width: calc(100% / 12 * 10);
+    }
+
+    .col-pad-11 {
+      width: calc(100% / 12 * 11);
+    }
+
+    .col-pad-12 {
+      width: calc(100% / 12 * 12);
+    }
+  }
+
+  @include phone-width {
+    .col-phone-1 {
+      width: calc(100% / 12);
+    }
+
+    .col-phone-2 {
+      width: calc(100% / 12 * 2);
+    }
+
+    .col-phone-3 {
+      width: calc(100% / 12 * 3);
+    }
+
+    .col-phone-4 {
+      width: calc(100% / 12 * 4);
+    }
+
+    .col-phone-5 {
+      width: calc(100% / 12 * 5);
+    }
+
+    .col-phone-6 {
+      width: calc(100% / 12 * 6);
+    }
+
+    .col-phone-7 {
+      width: calc(100% / 12 * 7);
+    }
+
+    .col-phone-8 {
+      width: calc(100% / 12 * 8);
+    }
+
+    .col-phone-9 {
+      width: calc(100% / 12 * 9);
+    }
+
+    .col-phone-10 {
+      width: calc(100% / 12 * 10);
+    }
+
+    .col-phone-11 {
+      width: calc(100% / 12 * 11);
+    }
+
+    .col-phone-12 {
+      width: calc(100% / 12 * 12);
+    }
+  }
+}

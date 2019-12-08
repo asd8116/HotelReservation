@@ -1,0 +1,148 @@
+.slideInDown-enter-active {
+  animation: slideInDown 1.5s ease-in 1s;
+}
+
+.slideInDown-leave-active {
+  animation: slideOutDown 0.5s ease-in;
+}
+
+// fade
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// slide
+.slide-enter-active,
+.slide-leave-active {
+  transition: .4s;
+}
+
+.slide-enter-active {
+  transition-delay: .4s;
+}
+
+.slide-enter {
+  transform: translate3d(0, 100%, 0);
+  visibility: visible;
+  opacity: 0;
+}
+
+.slide-enter-to {
+  height: initial;
+  transform: translate3d(0, 0, 0);
+}
+
+.slide-leave {
+  transform: translate3d(0, 0, 0);
+}
+
+.slide-leave-to {
+  visibility: hidden;
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+}
+
+// flip
+.flip-enter-active {
+  transition: 1s;
+}
+
+.flip-enter {
+  transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+  opacity: 0;
+}
+
+.flip-enter-to {
+  transform: perspective(400px);
+}
+
+// bounce
+.bounce-enter-active {
+  animation: jackInTheBox .5s;
+}
+
+@keyframes jackInTheBox {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(0.1) rotate(30deg);
+    transform: scale(0.1) rotate(30deg);
+    -webkit-transform-origin: center bottom;
+    transform-origin: center bottom;
+  }
+
+  50% {
+    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
+
+  70% {
+    -webkit-transform: rotate(3deg);
+    transform: rotate(3deg);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+// flip
+.slideInDown-enter-active {
+  animation: slideInDown 1s ease-in-out;
+}
+
+
+@keyframes slideInDown {
+  0% {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  80% {
+    transform: translate3d(0, 10%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0) translate(-50%, -50%);
+    ;
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0) translate(-50%, -50%);
+    ;
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutDown {
+  from {
+    transform: translate3d(0, 0, 0) translate(-50%, -50%);
+    ;
+    opacity: 1;
+  }
+
+  to {
+    visibility: hidden;
+    transform: translate3d(0, 100%, 0) translate(-50%, -50%);
+    ;
+    opacity: 0;
+  }
+}

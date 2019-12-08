@@ -1,0 +1,23 @@
+// 載入全部的功能模組 in main.js
+@import './util/reset.scss';
+@import './layout/layout.scss';
+@import './util/alert.scss';
+@import './util/animation.scss';
+
+// UI
+* {
+  box-sizing: border-box;
+  position: relative;
+}
+
+html {
+  height: 100%;
+  min-height: 100%;
+  font-size: $base-font-size;
+}
+
+body {
+  height: 100%;
+  min-height: 100%;
+  font-size: $base-font-size;
+}

@@ -1,0 +1,38 @@
+@import '../all.scss';
+
+.alert {
+  &__mtitle {
+    font-size: 1.5rem !important;
+    color: $text-color !important;
+    margin: 0.5rem 0 !important;
+  }
+
+  &__btitle {
+    font-size: 1.5rem !important;
+    margin: 0.5rem 0 !important;
+    color: $second-text-color !important;
+  }
+
+  &__header {
+    background-color: $second-color !important;
+  }
+
+  &__input {
+    width: 325px !important;
+    height: 40px !important;
+    margin: 0.5rem !important;
+  }
+
+  &__popup {
+    width: initial !important;
+    padding: 0rem !important;
+  }
+
+  &__actions {
+    margin-top: 0.5rem !important;
+  }
+
+  &__cancelbtn {
+    background-color: $danger-color !important;
+  }
+}
