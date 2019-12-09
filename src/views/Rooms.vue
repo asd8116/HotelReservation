@@ -14,8 +14,6 @@
         </slide>
       </carousel>
 
-      <div class="show"></div>
-
       <div class="center_banner">
         <router-link to="/rooms" class="logo">
           <img :src="`${basePath}images/logo_white.svg`" alt />
@@ -56,10 +54,20 @@
         </div>
       </div>
     </div>
+
+    <div class="rooms-container container">
+      <div class="rooms-list row">
+        <div class="col-4 col-pad-6 col-phone-12 item" v-for="room in rooms" :key="room.id">
+          <RoomsCard :ini-room="room" />
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <script>
+import RoomsCard from '@/components/RoomsCard.vue'
+
 import { Carousel, Slide } from 'vue-carousel'
 import roomsAPI from '@/api/room'
 import { Toast } from '@/utils/helpers'
@@ -67,7 +75,8 @@ import { Toast } from '@/utils/helpers'
 export default {
   components: {
     Carousel,
-    Slide
+    Slide,
+    RoomsCard
   },
   data () {
     return {
@@ -113,16 +122,6 @@ export default {
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center bottom;
-    }
-    .show {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0.64;
-      background: rgba(192, 192, 192, 0.2);
-      background-image: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.35) 100%);
     }
     .center_banner {
       position: absolute;
@@ -178,6 +177,19 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+  .rooms-container {
+    max-width: 950px;
+    top: -105px;
+  }
+  .rooms-list {
+    .item {
+      max-width: 300px;
+      padding: 0 12px;
+      @include phone-width {
+        max-width: 350px;
       }
     }
   }

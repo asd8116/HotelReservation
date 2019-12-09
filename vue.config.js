@@ -1,9 +1,10 @@
 module.exports = {
-  // css: {
-  //   loaderOptions: {
-  //     sass: {
-  //       data: `@import "@/scss/all.scss";`
-  //     }
-  //   }
-  // }
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  css: {
+    loaderOptions: {
+      scss: {
+        prependData: `@import "@/scss/all.scss";`
+      }
+    }
+  }
 }
