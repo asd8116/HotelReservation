@@ -10,6 +10,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './scss/index.scss'
 
 Vue.config.productionTip = false
 // axios.defaults.withCredentials = true
