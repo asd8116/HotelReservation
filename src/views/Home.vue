@@ -71,7 +71,7 @@ export default {
     return {
       rooms: [],
       hoverRoomId: 0,
-      // interval: null,
+      interval: null,
       isPaused: false,
       basePath: process.env.BASE_URL
     }
@@ -79,15 +79,19 @@ export default {
   created () {
     this.fetchRooms()
   },
+  beforeDestroy () {
+    clearInterval(this.interval)
+  },
   methods: {
     async fetchRooms () {
       const vm = this
       try {
-        let loader = this.$loading.show()
+        let loader = vm.$loading.show()
         const { data } = await roomsAPI.getRooms()
 
         vm.rooms = data.items
         loader.hide()
+        vm.carouselRooms()
         Toast.fire({
           icon: 'success',
           title: 'Get All Rooms'
@@ -103,6 +107,17 @@ export default {
     mouseOver (id) {
       this.hoverRoomId = id
       this.isPaused = true
+    },
+    carouselRooms () {
+      const vm = this
+      let index = 0
+      vm.hoverRoomId = vm.rooms[index].id
+      vm.interval = setInterval(() => {
+        if (vm.isPaused) return
+        index += 1
+        if (index > vm.rooms.length - 1) index = 0
+        vm.hoverRoomId = vm.rooms[index].id
+      }, 3000)
     }
   }
 }
@@ -155,7 +170,7 @@ main.landing-page {
       background-size: 10px 10px;
     }
     li a {
-      color:#000;
+      color: #000;
     }
     li.room {
       padding: 16px 0;
