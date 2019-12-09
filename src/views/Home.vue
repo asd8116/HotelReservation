@@ -211,10 +211,6 @@ main.landing-page {
         width: 25px;
         height: 25px;
         margin-right: 15px;
-        img {
-          width: 100%;
-          object-fit: cover;
-        }
       }
     }
     ul.contact {
@@ -228,13 +224,9 @@ main.landing-page {
         &:last-child {
           margin-bottom: 0;
         }
-
         .icon {
           width: 20px;
           height: 20px;
-          img {
-            object-fit: cover;
-          }
         }
         .contant {
           font-size: 14px;
