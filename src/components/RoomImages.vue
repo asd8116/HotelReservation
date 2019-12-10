@@ -104,14 +104,14 @@ export default {
       cursor: pointer;
       transition: 0.3s;
       &:hover {
-        box-shadow: 0px 0px 5px #999 inset;
+        box-shadow: 0px 0px 20px #999 inset;
       }
     }
     .main-image {
-      width: calc(100% - 360px);
+      width: calc(100% - 400px);
     }
     .sub-images {
-      width: 360px;
+      width: 400px;
       display: flex;
       flex-direction: column;
     }
@@ -138,10 +138,10 @@ export default {
       }
     }
     .imgbox {
-      height: 460px;
+      height: 600px;
       margin: 0 85px;
       img {
-        height: 460px;
+        height: 600px;
       }
     }
     .information {

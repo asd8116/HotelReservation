@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import RoomsCard from '@/components/RoomsCard.vue'
+import RoomsCard from '@/components/RoomsCard'
 
 import { Carousel, Slide } from 'vue-carousel'
 import roomsAPI from '@/api/room'

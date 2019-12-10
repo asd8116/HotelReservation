@@ -1,18 +1,24 @@
 <template>
   <div v-if="roomData" class="room-page">
     <RoomImages :imageUrl="roomData.imageUrl" :roomName="roomData.name" />
+
+    <main class="room">
+      <RoomDetail :ini-room="roomData" />
+    </main>
   </div>
 </template>
 
 <script>
 import RoomImages from '@/components/RoomImages'
+import RoomDetail from '@/components/RoomDetail'
 
 import roomsAPI from '@/api/room'
 import { Toast } from '@/utils/helpers'
 
 export default {
   components: {
-    RoomImages
+    RoomImages,
+    RoomDetail
   },
   data () {
     return {
@@ -49,3 +55,20 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.room-page {
+  width: 100%;
+  min-width: 1200px;
+  padding-bottom: 70px;
+
+  .room {
+    max-width: 1200px;
+    width: 100%;
+    margin: 50px auto 0;
+    padding: 0 65px;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+</style>
