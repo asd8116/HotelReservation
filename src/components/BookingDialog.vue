@@ -30,15 +30,19 @@
               <div class="datepicker-box">
                 <Datepicker
                   input-class="my-input-date"
+                  calendar-class="calendar-class-input"
                   :language="zh"
                   format="yyyy/M/dd"
                   v-model="startDate"
+                  :disabled-dates="disabledStartDates"
                 ></Datepicker>~
                 <Datepicker
                   input-class="my-input-date"
+                  calendar-class="calendar-class-input"
                   :language="zh"
                   format="yyyy/M/dd"
                   v-model="endDate"
+                  :disabled-dates="disabledEndDates"
                 ></Datepicker>
               </div>
             </div>
@@ -99,6 +103,25 @@ export default {
     totalPrice () {
       const vm = this
       return vm.holidayPrice * vm.holidayDates + vm.normalDayPrice * vm.normalDates
+    },
+    disabledStartDates () {
+      if (this.endDate === null) return { to: new Date() }
+
+      let endDate = new Date(this.endDate)
+      endDate.setDate(endDate.getDate() - 1)
+      return {
+        to: new Date(),
+        from: endDate
+      }
+    },
+    disabledEndDates () {
+      if (this.startDate === null) return { to: new Date() }
+
+      let startDate = new Date(this.startDate)
+      startDate.setDate(startDate.getDate() + 1)
+      return {
+        to: startDate
+      }
     }
   },
   methods: {
@@ -164,7 +187,7 @@ export default {
           text-align: center;
         }
         input.my-input {
-          border: 1px solid #C9C9C9;
+          border: 1px solid #c9c9c9;
           border-radius: 5px;
           outline: none;
           height: 32px;
@@ -189,7 +212,7 @@ export default {
             outline: none;
             width: 90px;
             height: 32px;
-            border: 1px solid #C9C9C9;
+            border: 1px solid #c9c9c9;
             border-radius: 5px;
             font-size: 12px;
             color: #000000;
@@ -202,14 +225,14 @@ export default {
         margin-right: -45px;
         margin-left: -45px;
         padding: 15px 45px;
-        background: #EDEDED;
+        background: #ededed;
 
         .day {
           display: flex;
           justify-content: space-between;
           align-items: center;
           font-size: 12px;
-          color: #6D7278;
+          color: #6d7278;
           letter-spacing: 1.25px;
           margin-bottom: 8px;
           &:last-child {
@@ -229,7 +252,7 @@ export default {
           align-items: center;
           font-size: 26px;
           font-weight: bold;
-          color: #FF5C5C;
+          color: #ff5c5c;
           letter-spacing: 2.72px;
           text-align: right;
         }
@@ -255,8 +278,8 @@ export default {
           opacity: 0.9;
         }
         &.btn-cancel {
-          background: #D8D8D8;
-          color: #6D7278;
+          background: #d8d8d8;
+          color: #6d7278;
         }
         &.btn-confrim {
           background: #484848;
