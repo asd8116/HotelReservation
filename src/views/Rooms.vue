@@ -90,13 +90,14 @@ export default {
   methods: {
     async fetchRooms () {
       const vm = this
+      let loader = vm.$loading.show()
       try {
-        let loader = vm.$loading.show()
         const { data } = await roomsAPI.getRooms()
 
         vm.rooms = data.items
         loader.hide()
       } catch (error) {
+        loader.hide()
         Toast.fire({
           icon: 'error',
           title: 'Unavailable',

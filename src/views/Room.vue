@@ -4,6 +4,7 @@
 
     <main class="room">
       <RoomDetail :ini-room="roomData" />
+      <Calendar :ini-room="roomData" :booked="booking" />
     </main>
   </div>
 </template>
@@ -11,6 +12,7 @@
 <script>
 import RoomImages from '@/components/RoomImages'
 import RoomDetail from '@/components/RoomDetail'
+import Calendar from '@/components/Calendar'
 
 import roomsAPI from '@/api/room'
 import { Toast } from '@/utils/helpers'
@@ -18,11 +20,13 @@ import { Toast } from '@/utils/helpers'
 export default {
   components: {
     RoomImages,
-    RoomDetail
+    RoomDetail,
+    Calendar
   },
   data () {
     return {
-      roomData: {}
+      roomData: {},
+      booking: []
     }
   },
   created () {
@@ -38,13 +42,15 @@ export default {
   methods: {
     async fetchRoom (roomId) {
       const vm = this
+      let loader = vm.$loading.show()
       try {
-        let loader = vm.$loading.show()
         const { data } = await roomsAPI.getRoom(roomId)
 
         vm.roomData = data.room[0]
+        vm.booking = data.booking
         loader.hide()
       } catch (error) {
+        loader.hide()
         Toast.fire({
           icon: 'error',
           title: 'Unavailable',
