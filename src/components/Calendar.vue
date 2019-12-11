@@ -1,6 +1,6 @@
 <template>
   <div class="hotel-calendar">
-    <datepicker
+    <Datepicker
       :inline="true"
       wrapper-class="wrapper-class"
       calendar-class="calendar-class"
@@ -10,11 +10,11 @@
       :language="zh"
       :value="nowDate"
       :disabled-dates="disabledDates"
-    ></datepicker>
+    ></Datepicker>
 
     <div class="d-flex">
       <div class="btn-arround">
-        <button class="booking-btn" @click="openForm">預約時段</button>
+        <button class="booking-btn" @click="openForm = true">預約時段</button>
         <div class="decoration"></div>
       </div>
 
@@ -23,15 +23,25 @@
         <div class="decoration"></div>
       </div>
     </div>
+
+    <BookingDialog
+      :isOpen="openForm"
+      :isClose="closeForm"
+      :holidayPrice="iniRoom.holidayPrice"
+      :normalDayPrice="iniRoom.normalDayPrice"
+    />
   </div>
 </template>
 
 <script>
+import BookingDialog from '@/components/BookingDialog'
+
 import Datepicker from 'vuejs-datepicker'
 import { en, zh } from 'vuejs-datepicker/dist/locale'
 
 export default {
   components: {
+    BookingDialog,
     Datepicker
   },
   props: {
@@ -49,7 +59,7 @@ export default {
       nowDate: new Date(),
       en: en,
       zh: zh,
-      openForm: true
+      openForm: false
     }
   },
   computed: {
@@ -59,6 +69,14 @@ export default {
       return {
         to: date
       }
+    }
+  },
+  methods: {
+    closeForm () {
+      this.openForm = false
+    },
+    clearData () {
+      console.log('Delete')
     }
   }
 }

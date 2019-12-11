@@ -1,7 +1,7 @@
 <template>
   <main class="rooms-page">
     <div class="banner">
-      <carousel
+      <Carousel
         :autoplay="true"
         :loop="true"
         :autoplayTimeout="3000"
@@ -9,10 +9,10 @@
         :paginationEnabled="false"
         class="bunner-carousel"
       >
-        <slide v-for="room in rooms" :key="room.id">
+        <Slide v-for="room in rooms" :key="room.id">
           <div class="slide-content" :style="{ backgroundImage: `url('${room.imageUrl}')` }"></div>
-        </slide>
-      </carousel>
+        </Slide>
+      </Carousel>
 
       <div class="center_banner">
         <router-link to="/rooms" class="logo">
