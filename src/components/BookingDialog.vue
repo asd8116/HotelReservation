@@ -145,6 +145,23 @@ export default {
       }
     }
   },
+  // 目標改變時才開始運算函數，computed 無法做到的事，靠它就能補足。
+  watch: {
+    startDate: {
+      // immediate: false, // 初始時就執行改 true
+      // deep: true, // 假如監視的資料不在同一層時
+      handler () {
+        if (this.endDate === null || this.startDate === null) return
+        this.getTotalDays()
+      }
+    },
+    endDate: {
+      handler () {
+        if (this.endDate === null || this.startDate === null) return
+        this.getTotalDays()
+      }
+    }
+  },
   methods: {
     closeForm () {
       this.isClose()
@@ -160,10 +177,48 @@ export default {
 
       vm.name.trim().length === 0 ? (vm.errorName = true) : (vm.errorName = false)
       phoneReg.test(vm.phone) === false ? (vm.errorPhone = true) : (vm.errorPhone = false)
-      vm.startDate === null || vm.endData === null ? (vm.errorDate = true) : (vm.errorDate = false)
+      vm.startDate === null || vm.endDate === null ? (vm.errorDate = true) : (vm.errorDate = false)
 
       if (vm.errorName || vm.errorPhone || vm.errorDate) return false
       return true
+    },
+    // 把選擇的日期儲存成陣列
+    chooseDates () {
+      const vm = this
+      if (vm.startDate === null || vm.endDate === null) return
+
+      let d1 = new Date(vm.startDate)
+      let d2 = new Date(vm.endDate)
+      let oneDay = 1000 * 60 * 60 * 24
+      let d1ms = d1.getTime()
+      let d2ms = d2.getTime()
+      let dateArray = []
+
+      for (d1ms; d1ms <= d2ms; d1ms += oneDay) {
+        let date = new Date(d1ms)
+        dateArray.push(date)
+      }
+      return dateArray
+    },
+    // 計算陣列中平日和假日各別的天數
+    getTotalDays () {
+      const vm = this
+      const days = vm.chooseDates()
+
+      vm.normalDates = 0
+      vm.holidayDates = 0
+
+      days.forEach((day, i) => {
+        if (i === days.length - 1) return
+
+        const date = new Date(day)
+
+        if (date.getDay() === 1 || date.getDay() === 2 || date.getDay() === 3 || date.getDay() === 4) {
+          vm.normalDates += 1
+        } else {
+          vm.holidayDates += 1
+        }
+      })
     }
   }
 }
