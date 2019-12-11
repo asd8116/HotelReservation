@@ -15,13 +15,29 @@
             <div class="input-box">
               <label for="name">姓名</label>
 
-              <input class="my-input" type="text" id="name" v-model="name" />
+              <input
+                :class="errorName ? 'my-input error' : 'my-input'"
+                type="text"
+                id="name"
+                v-model="name"
+                @change="errorName = false"
+              />
+
+              <div class="errorMessage" v-show="errorName">請填入姓名</div>
             </div>
 
             <div class="input-box">
               <label for="phone">電話</label>
 
-              <input class="my-input" type="text" id="phone" v-model="phoneNumber" />
+              <input
+                :class="errorName ? 'my-input error' : 'my-input'"
+                type="text"
+                id="phone"
+                v-model="phone"
+                @change="errorPhone = false"
+              />
+
+              <div class="errorMessage" v-show="errorPhone">請填入正確電話號碼</div>
             </div>
 
             <div class="input-box">
@@ -29,7 +45,7 @@
 
               <div class="datepicker-box">
                 <Datepicker
-                  input-class="my-input-date"
+                  :input-class="errorDate ? 'my-input-date error' : 'my-input-date'"
                   calendar-class="calendar-class-input"
                   :language="zh"
                   format="yyyy/M/dd"
@@ -37,7 +53,7 @@
                   :disabled-dates="disabledStartDates"
                 ></Datepicker>~
                 <Datepicker
-                  input-class="my-input-date"
+                  :input-class="errorDate ? 'my-input-date error' : 'my-input-date'"
                   calendar-class="calendar-class-input"
                   :language="zh"
                   format="yyyy/M/dd"
@@ -45,6 +61,8 @@
                   :disabled-dates="disabledEndDates"
                 ></Datepicker>
               </div>
+
+              <div class="errorMessage" v-show="errorDate">請選擇入住與退房日期</div>
             </div>
 
             <div class="caculate">
@@ -92,11 +110,14 @@ export default {
       en: en,
       zh: zh,
       name: '',
-      phoneNumber: '',
+      phone: '',
       startDate: null,
       endDate: null,
       normalDates: 0,
-      holidayDates: 0
+      holidayDates: 0,
+      errorName: false,
+      errorPhone: false,
+      errorDate: false
     }
   },
   computed: {
@@ -127,6 +148,22 @@ export default {
   methods: {
     closeForm () {
       this.isClose()
+    },
+    trueBook () {
+      if (!this.validated()) return
+
+      console.log('Yooooooooooo')
+    },
+    validated () {
+      const vm = this
+      let phoneReg = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s/0-9]*$/g
+
+      vm.name.trim().length === 0 ? (vm.errorName = true) : (vm.errorName = false)
+      phoneReg.test(vm.phone) === false ? (vm.errorPhone = true) : (vm.errorPhone = false)
+      vm.startDate === null || vm.endData === null ? (vm.errorDate = true) : (vm.errorDate = false)
+
+      if (vm.errorName || vm.errorPhone || vm.errorDate) return false
+      return true
     }
   }
 }
@@ -186,6 +223,12 @@ export default {
           letter-spacing: 1.46px;
           text-align: center;
         }
+        .errorMessage {
+          width: 100%;
+          font-size: 12px;
+          color: #d80533;
+          text-align: right;
+        }
         input.my-input {
           border: 1px solid #c9c9c9;
           border-radius: 5px;
@@ -196,6 +239,9 @@ export default {
           font-size: 12px;
           color: #000000;
           letter-spacing: 1.25px;
+          &.error {
+            border-color: #d80533;
+          }
         }
         .datepicker-box {
           width: 245px;
@@ -218,6 +264,9 @@ export default {
             color: #000000;
             letter-spacing: 1.25px;
             text-align: center;
+            &.error {
+              border-color: #d80533;
+            }
           }
         }
       }
