@@ -88,6 +88,15 @@ export default {
     },
     async clearData () {
       const vm = this
+      let loader = vm.$loading.show({
+        container: vm.$refs.clearbtn,
+        loader: 'dots',
+        color: 'white',
+        width: 30,
+        height: 30,
+        backgroundColor: '#575757',
+        opacity: 1
+      })
       try {
         const res = await roomsAPI.deleteBooking()
 
@@ -96,11 +105,13 @@ export default {
           const { data } = await roomsAPI.getRoom(roomId)
           vm.$bus.$emit('successBook', data)
         }
+        loader.hide()
         Toast.fire({
           icon: 'success',
           title: 'Success'
         })
       } catch (error) {
+        loader.hide()
         Toast.fire({
           icon: 'error',
           title: 'Clear failed',

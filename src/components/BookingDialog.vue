@@ -2,7 +2,7 @@
   <transition name="fade">
     <div class="booking-dialog" v-if="isOpen">
       <transition name="slideInDown">
-        <div class="dialog-panel" @click.stop>
+        <div class="dialog-panel" @click.stop v-if="!isAlert">
           <h3 class="title">預約時段</h3>
 
           <div class="decoration-three">
@@ -87,10 +87,12 @@
 
             <div class="button-group">
               <button class="btn-cancel" @click.prevent="closeForm">取消</button>
-              <button class="btn-confrim" @click.prevent="trueBook" ref="loadingConfirm">確定預約</button>
+              <button class="btn-confrim" @click.prevent="trueBook" ref="loadingButton">確定預約</button>
             </div>
           </form>
         </div>
+
+        <Message v-else :message="message" :title="alertTitle" :closeAll="closeForm" />
       </transition>
     </div>
   </transition>
@@ -99,14 +101,16 @@
 <script>
 import Datepicker from 'vuejs-datepicker'
 import { en, zh } from 'vuejs-datepicker/dist/locale'
+import Message from '@/components/Message'
 
 import roomsAPI from '@/api/room'
-import { Toast } from '@/utils/helpers'
+// import { Toast } from '@/utils/helpers'
 import moment from 'moment'
 
 export default {
   components: {
-    Datepicker
+    Datepicker,
+    Message
   },
   props: ['isOpen', 'isClose', 'holidayPrice', 'normalDayPrice'],
   data () {
@@ -121,7 +125,10 @@ export default {
       holidayDates: 0,
       errorName: false,
       errorPhone: false,
-      errorDate: false
+      errorDate: false,
+      isAlert: false,
+      alertTitle: 'true',
+      message: ''
     }
   },
   computed: {
@@ -168,6 +175,7 @@ export default {
   },
   methods: {
     closeForm () {
+      this.resetData()
       this.isClose()
     },
     async trueBook () {
@@ -182,25 +190,30 @@ export default {
           return moment(date).format('YYYY-MM-DD')
         })
       }
+      let loader = this.$loading.show({
+        container: this.$refs.loadingButton,
+        loader: 'dots',
+        color: 'white',
+        width: 30,
+        height: 30,
+        backgroundColor: '#575757',
+        opacity: 1
+      })
       try {
-        const { data } = await roomsAPI.postBooking(roomId, formData)
-
-        if (data.message) {
-          throw new Error(data.message)
-        }
+        await roomsAPI.postBooking(roomId, formData)
+        const { data } = await roomsAPI.getRoom(roomId)
 
         vm.$bus.$emit('successBook', data)
-        vm.isClose()
-        Toast.fire({
-          icon: 'success',
-          title: 'Success'
-        })
+        loader.hide()
+        vm.isAlert = true
+        vm.alertTitle = 'true'
+        vm.resetData()
       } catch (error) {
-        Toast.fire({
-          icon: 'error',
-          title: 'Book failed',
-          text: 'Please Try Later'
-        })
+        loader.hide()
+        vm.isAlert = true
+        vm.alertTitle = 'fail'
+        vm.message = '預約時間已被人預訂'
+        vm.resetData()
       }
     },
     validated () {
@@ -251,6 +264,20 @@ export default {
           vm.holidayDates += 1
         }
       })
+    },
+    resetData () {
+      this.name = ''
+      this.phone = ''
+      this.startDate = null
+      this.endDate = null
+      this.normalDates = 0
+      this.holidayDates = 0
+      this.errorName = false
+      this.errorPhone = false
+      this.errorDate = false
+      this.isAlert = false
+      this.alertTitle = 'true'
+      this.message = ''
     }
   }
 }
@@ -277,7 +304,7 @@ export default {
 
     .title {
       font-size: 24px;
-      font-weight: 500;
+      font-weight: 700;
       color: #000000;
       letter-spacing: 2.51px;
       text-align: left;
@@ -305,7 +332,7 @@ export default {
 
         label {
           font-size: 14px;
-          font-weight: normal;
+          font-weight: bolder;
           color: #000000;
           letter-spacing: 1.46px;
           text-align: center;
