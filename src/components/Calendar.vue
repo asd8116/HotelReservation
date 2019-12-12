@@ -10,6 +10,7 @@
       :language="zh"
       :value="nowDate"
       :disabled-dates="disabledDates"
+      :highlighted="highlighted"
     ></Datepicker>
 
     <div class="d-flex">
@@ -35,9 +36,12 @@
 
 <script>
 import BookingDialog from '@/components/BookingDialog'
-
 import Datepicker from 'vuejs-datepicker'
 import { en, zh } from 'vuejs-datepicker/dist/locale'
+
+import roomsAPI from '@/api/room'
+import { Toast } from '@/utils/helpers'
+import moment from 'moment'
 
 export default {
   components: {
@@ -69,14 +73,40 @@ export default {
       return {
         to: date
       }
+    },
+    highlighted () {
+      return {
+        dates: this.booked.map(book => {
+          return new Date(moment(book.date)._d)
+        })
+      }
     }
   },
   methods: {
     closeForm () {
       this.openForm = false
     },
-    clearData () {
-      console.log('Delete')
+    async clearData () {
+      const vm = this
+      try {
+        const res = await roomsAPI.deleteBooking()
+
+        if (res.data.success) {
+          const { roomId } = vm.$route.params
+          const { data } = await roomsAPI.getRoom(roomId)
+          vm.$bus.$emit('successBook', data)
+        }
+        Toast.fire({
+          icon: 'success',
+          title: 'Success'
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Clear failed',
+          text: 'Please Try Later'
+        })
+      }
     }
   }
 }
@@ -123,6 +153,35 @@ export default {
       background-color: rgba(#575757, 0.2);
       &:hover {
         background-color: rgba(#575757, 0.3);
+      }
+    }
+    .cell.highlighted {
+      background-color: transparent;
+      &::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        background-color: rgba(white, 0.2);
+        background-image: linear-gradient(
+          45deg,
+          black 5%,
+          transparent 5%,
+          transparent 45%,
+          black 45%,
+          black 55%,
+          transparent 55%,
+          transparent 95%,
+          black 95%,
+          black
+        );
+        background-size: 8px 8px;
+        opacity: 0.3;
+      }
+      &:hover {
+        background-color: rgba(#575757, 0.2);
       }
     }
   }

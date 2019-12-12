@@ -100,6 +100,10 @@
 import Datepicker from 'vuejs-datepicker'
 import { en, zh } from 'vuejs-datepicker/dist/locale'
 
+import roomsAPI from '@/api/room'
+import { Toast } from '@/utils/helpers'
+import moment from 'moment'
+
 export default {
   components: {
     Datepicker
@@ -166,10 +170,38 @@ export default {
     closeForm () {
       this.isClose()
     },
-    trueBook () {
+    async trueBook () {
       if (!this.validated()) return
 
-      console.log('Yooooooooooo')
+      const vm = this
+      const { roomId } = vm.$route.params
+      const formData = {
+        name: vm.name,
+        tel: vm.phone,
+        date: vm.chooseDates().map(date => {
+          return moment(date).format('YYYY-MM-DD')
+        })
+      }
+      try {
+        const { data } = await roomsAPI.postBooking(roomId, formData)
+
+        if (data.message) {
+          throw new Error(data.message)
+        }
+
+        vm.$bus.$emit('successBook', data)
+        vm.isClose()
+        Toast.fire({
+          icon: 'success',
+          title: 'Success'
+        })
+      } catch (error) {
+        Toast.fire({
+          icon: 'error',
+          title: 'Book failed',
+          text: 'Please Try Later'
+        })
+      }
     },
     validated () {
       const vm = this

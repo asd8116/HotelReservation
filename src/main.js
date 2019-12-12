@@ -10,6 +10,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import Bus from './utils/bus'
 import './scss/index.scss'
 
 Vue.config.productionTip = false
@@ -27,6 +28,11 @@ Vue.use(Loading, {
 })
 
 new Vue({
+  data () {
+    return {
+      bus: Bus // Bind our event bus to our $root Vue model
+    }
+  },
   router,
   store,
   render: h => h(App)

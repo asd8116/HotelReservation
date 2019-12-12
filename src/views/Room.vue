@@ -32,12 +32,19 @@ export default {
   created () {
     const { roomId } = this.$route.params
     this.fetchRoom(roomId)
+    this.$bus.$on('successBook', data => {
+      this.roomData = data.room[0]
+      this.booking = data.booking
+    })
   },
   beforeRouteUpdate (to, from, next) {
     // 路由改變時重新抓取資料
     const { roomId } = to.params
     this.fetchRoom(roomId)
     next()
+  },
+  beforeDestroy () {
+    this.$bus.$off('successBook')
   },
   methods: {
     async fetchRoom (roomId) {

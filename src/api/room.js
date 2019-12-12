@@ -7,10 +7,10 @@ export default {
   getRoom (roomId) {
     return apiHelper.get(`/room/${roomId}`)
   },
-  postBookingRoom (roomId, formData) {
+  postBooking (roomId, formData) {
     return apiHelper.post(`/room/${roomId}`, formData)
   },
-  deleteBookingRoom () {
+  deleteBooking () {
     return apiHelper.delete(`/rooms`)
   }
 }
